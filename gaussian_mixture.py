@@ -16,7 +16,7 @@ from sklearn.mixture import GaussianMixture
 write_text = True
 
 # load point cloud from file
-file_path = 'TLS_kitchen.ply'
+file_path = 'output_big3.pcd'
 
 # read point cloud from file
 pcd = o3d.io.read_point_cloud(file_path)
@@ -33,6 +33,7 @@ segments = {}
 max_plane_idx = 30
 # Create an instance of the GaussianMixture class
 gm = GaussianMixture(n_components=1)
+gm.covariance_type = "full"
 
 rest = pcd
 for i in range(max_plane_idx):
@@ -41,11 +42,10 @@ for i in range(max_plane_idx):
         distance_threshold=0.01, ransac_n=3, num_iterations=1000)
     segments[i] = rest.select_by_index(inliers)
 
-    ############### DBSCAN
+    ############### Gaussian
     points = np.asarray(segments[i].points)
     gm.fit(points)
     labels = gm.predict(points)
-
 
     candidates = [len(np.where(labels == j)[0]) for j in np.unique(labels)]
     best_candidate = int(np.unique(labels)[np.where(candidates == np.max(candidates))[0]])
@@ -57,6 +57,7 @@ for i in range(max_plane_idx):
     print("pass", i, "/", max_plane_idx, "done.")
 
 
-o3d.visualization.draw_geometries([segments[i] for i in range(max_plane_idx)],zoom=0.3199,front=[0.30159062875123849, 0.94077325609922868, 0.15488309545553303],lookat=[-3.9559999108314514, -0.055000066757202148, -0.27599999308586121],up=[-0.044411423633999815, -0.138726419067636, 0.98753122516983349])
+o3d.visualization.draw_geometries([segments[i] for i in range(max_plane_idx)])
+# o3d.visualization.draw_geometries([segments[i] for i in range(max_plane_idx)],zoom=0.3199,front=[0.30159062875123849, 0.94077325609922868, 0.15488309545553303],lookat=[-3.9559999108314514, -0.055000066757202148, -0.27599999308586121],up=[-0.044411423633999815, -0.138726419067636, 0.98753122516983349])
 cv2.waitKey(0)
 

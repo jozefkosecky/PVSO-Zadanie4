@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 write_text = True
 
 # load point cloud from file
-file_path = 'TLS_kitchen.ply'
+file_path = 'output_big2.pcd'
 
 # read point cloud from file
 pcd = o3d.io.read_point_cloud(file_path)
@@ -55,5 +55,6 @@ for i in range(max_plane_idx):
     print("pass", i, "/", max_plane_idx, "done.")
 
 
-o3d.visualization.draw_geometries([segments[i] for i in range(max_plane_idx)],zoom=0.3199,front=[0.30159062875123849, 0.94077325609922868, 0.15488309545553303],lookat=[-3.9559999108314514, -0.055000066757202148, -0.27599999308586121],up=[-0.044411423633999815, -0.138726419067636, 0.98753122516983349])
+o3d.visualization.draw_geometries([segments[i] for i in range(max_plane_idx)])
+# o3d.visualization.draw_geometries([segments[i] for i in range(max_plane_idx)],zoom=0.3199,front=[0.30159062875123849, 0.94077325609922868, 0.15488309545553303],lookat=[-3.9559999108314514, -0.055000066757202148, -0.27599999308586121],up=[-0.044411423633999815, -0.138726419067636, 0.98753122516983349])
 cv2.waitKey(0)

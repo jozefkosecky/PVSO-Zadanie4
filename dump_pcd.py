@@ -24,8 +24,8 @@ undistorted, registered, big_depth = device.registration.apply(
     rgb, depth, with_big_depth=True)
 
 # Combine the depth and RGB data together into a single point cloud.
-with open('output2.pcd', 'wb') as fobj:
+with open('output3.pcd', 'wb') as fobj:
     device.registration.write_pcd(fobj, undistorted, registered)
 
-with open('output_big2.pcd', 'wb') as fobj:
+with open('output_big3.pcd', 'wb') as fobj:
    device.registration.write_big_pcd(fobj, big_depth, rgb)
